@@ -70,7 +70,7 @@ const login = async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiredIn: "7d" }
+      { expiresIn: "7d" }
     );
     res.cookie("jwt", accessToken, {
       httpOnly: true,
