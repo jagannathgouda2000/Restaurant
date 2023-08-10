@@ -16,6 +16,8 @@ app.use(cors(config.corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
+app.use("/auth", require("./routes/authRoute"));
+
 mongoose.connection.once("open", () => {
   console.log("connected to DB");
   app.listen(PORT, () => console.log(`server is running on PORT ${PORT}`));
