@@ -34,6 +34,9 @@ const restaurantSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    socialMedia: {
+      type: Object,
+    },
   },
   {
     timestamps: true,

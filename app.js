@@ -16,6 +16,11 @@ app.use(cors(config.corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
+//protected with middleware verifyJWT for owner side
+app.use("/hotel", require("./routes/hotelRoute"));
+app.use("/upload", require("./routes/uploadRoute"));
+
+//for authentication
 app.use("/auth", require("./routes/authRoute"));
 
 mongoose.connection.once("open", () => {
