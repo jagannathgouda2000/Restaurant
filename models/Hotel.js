@@ -11,21 +11,24 @@ const restaurantSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    State: {
+    state: {
       type: String,
       required: true,
     },
-    District: {
+    district: {
       type: String,
       required: true,
     },
     pincode: {
       type: Number,
-      reuired: true,
+      required: true,
+    },
+    address: {
+      type: String,
     },
     isActive: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     isDeleted: {
       type: Boolean,
