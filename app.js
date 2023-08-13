@@ -19,6 +19,7 @@ app.use(cookieParser());
 //protected with middleware verifyJWT for owner side
 app.use("/hotel", require("./routes/hotelRoute"));
 app.use("/upload", require("./routes/uploadRoute"));
+app.use("/item", require("./routes/itemRoute"));
 
 //for authentication
 app.use("/auth", require("./routes/authRoute"));

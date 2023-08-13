@@ -1,4 +1,3 @@
-const User = require("../models/User");
 const Hotels = require("../models/Hotel");
 
 const getHotelById = async (req, res) => {
@@ -23,7 +22,7 @@ const addHotel = async (req, res) => {
     const { id } = req.userInfo;
     const { name, state, district, pincode, address, image, socialMedia } =
       req.body;
-    if (!name || !state || !district || !pincode || !image) {
+    if (!name || !state || !district || !pincode || !image || address) {
       return res.status(400).json({ message: "All fields are required" });
     }
     const duplicate = await Hotels.findOne({ userId: id }).exec();
@@ -39,10 +38,11 @@ const addHotel = async (req, res) => {
       district: district,
       pincode: pincode,
       image: image,
+      address: address,
       socialMedia: socialMedia,
     };
     const hotel = await Hotels.create(hotelObj);
-    if (store) res.status(201).json({ message: `New hotel ${name} created` });
+    if (hotel) res.status(201).json({ message: `New hotel ${name} created` });
     else res.status(400).json({ message: "Invalid data found" });
   } catch (ex) {
     console.log(err);

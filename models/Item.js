@@ -1,31 +1,38 @@
 const mongoose = require("mongoose");
 
-const restaurantSchema = new mongoose.Schema(
+const itemSchema = new mongoose.Schema(
   {
-    userid: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "Users",
+    },
+    hotelId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Hotels",
     },
     name: {
       type: String,
       required: true,
     },
-    State: {
-      type: String,
-      required: true,
-    },
-    District: {
-      type: String,
-      required: true,
-    },
-    pincode: {
+    price: {
       type: Number,
-      reuired: true,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    addditionalImage: {
+      type: Array,
+    },
+    description: {
+      type: String,
     },
     isActive: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     isDeleted: {
       type: Boolean,
@@ -37,6 +44,6 @@ const restaurantSchema = new mongoose.Schema(
   }
 );
 
-const Restaurant = mongoose.model("Restaurants", restaurantSchema);
+const Item = mongoose.model("Items", itemSchema);
 
-module.exports = Restaurant;
+module.exports = Item;
