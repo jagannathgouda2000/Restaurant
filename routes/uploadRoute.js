@@ -6,5 +6,7 @@ const uploadController = require("../controllers/uploadController");
 router.use(verifyJWT);
 
 router.post("/hotel", uploadController.uploadHotelImage);
+router.post("/item", uploadController.uploadItemImage);
+router.post("/additionalItem", uploadController.uploadItemAdditionalImage);
 
 module.exports = router;

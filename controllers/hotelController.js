@@ -25,8 +25,11 @@ const addHotel = async (req, res) => {
     if (!name || !state || !district || !pincode || !image || address) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    const duplicate = await Hotels.findOne({ userId: id }).exec();
+    const duplicate = await Hotels.findOne({
+      $and: [{ userId: id }, { isDeleted: false }],
+    }).exec();
     if (duplicate && !duplicate.isDeleted) {
+      //isdeleted check
       return res
         .status(400)
         .json({ message: "One user can have maximum of 1 hotel" });
