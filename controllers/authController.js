@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { emit } = require("../models/UploadFile");
 
 const register = async (req, res) => {
   try {
@@ -49,7 +50,7 @@ const login = async (req, res) => {
     }
 
     const foundOne = await User.findOne({
-      $and: [{ email: email }, { isDeleted: false }],
+      $and: [{ email: email }, { isDeleted: false }, { roleId: 2 }],
     }).exec();
 
     if (!foundOne || !foundOne.isActive) {
@@ -67,6 +68,7 @@ const login = async (req, res) => {
         userInfo: {
           email: foundOne.email,
           id: foundOne._id,
+          roleId: foundOne.roleId,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
@@ -93,8 +95,49 @@ const logout = async (req, res) => {
   res.json({ message: "cookie cleared" });
 };
 
+const userLogin = async (req, res) => {
+  try {
+    const { email, firstName } = req.body;
+    if (!email || !firstName)
+      return res.status(400).json({ message: "Email and name is required" });
+    var user = await User.findOne({ email: email.toLowerCase() }).exec();
+    if (!user) {
+      userObj = {
+        email: email,
+        firstName: firstName,
+        password: "India@123",
+        roleId: 3,
+      };
+      user = await User.create(userObj);
+      const accessToken = jwt.sign(
+        {
+          userInfo: {
+            email: user.email,
+            id: user._id,
+            roleId: user.roleId,
+          },
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "7d" }
+      );
+      res.cookie("jwt", accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      res.json({ accessToken });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 module.exports = {
   register,
   login,
   logout,
+  userLogin,
 };
