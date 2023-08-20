@@ -16,6 +16,9 @@ app.use(cors(config.corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
+//public routes can be access by any one
+app.use("/frontendHotel", require("./routes/frontendRoute/hotelDataRoute"));
+
 //protected with middleware verifyJWT for owner side
 app.use("/hotel", require("./routes/hotelRoute"));
 app.use("/upload", require("./routes/uploadRoute"));

@@ -28,11 +28,16 @@ const addHotel = async (req, res) => {
     const duplicate = await Hotels.findOne({
       $and: [{ userId: id }, { isDeleted: false }],
     }).exec();
+    const duplicateName = await Hotels.findOne({ name: name }).exec();
     if (duplicate && !duplicate.isDeleted) {
       //isdeleted check
       return res
         .status(400)
         .json({ message: "One user can have maximum of 1 hotel" });
+    }
+    if (duplicateName) {
+      //hotel name must be unique
+      return res.status(400).json({ message: "This name is already taken" });
     }
     const hotelObj = {
       userId: id,
