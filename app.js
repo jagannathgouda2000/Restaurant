@@ -18,8 +18,9 @@ app.use(cookieParser());
 
 //public routes can be access by any one
 app.use("/frontendHotel", require("./routes/frontendRoute/hotelDataRoute"));
+app.use("/frontendRestaurant", require("./routes/frontendRoute/itemDataRoute"));
 
-//protected with middleware verifyJWT for owner side
+//protected with middleware verifyOwner for owner side
 app.use("/hotel", require("./routes/hotelRoute"));
 app.use("/upload", require("./routes/uploadRoute"));
 app.use("/item", require("./routes/itemRoute"));
